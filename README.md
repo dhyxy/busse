@@ -54,11 +54,8 @@ this is the [ORM](https://stackoverflow.com/a/1279678) we'll use in the backend.
 
 ### Executing program
 
--   How to run the program
--   Step-by-step bullets
-
 ```
-code blocks for commands
+npm run dev
 ```
 
 ## License
