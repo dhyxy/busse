@@ -1,0 +1,30 @@
+{
+  "name": "bussy",
+  "version": "1.0.0",
+  "description": "seng 401 project",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db": "npx prisma migrate dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhyxy/bussy.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dhyxy/bussy/issues"
+  },
+  "homepage": "https://github.com/dhyxy/bussy#readme",
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "prisma": "^4.9.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.9.0",
+    "express": "^4.18.2"
+  }
+}
