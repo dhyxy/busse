@@ -1,6 +1,6 @@
-# bussy
+# bussé
 
-this is the main repository for group 25's SENG 401 project - bussyi.
+this is the main repository for group 25's SENG 401 project - bussé.
 
 ## Description
 
@@ -45,7 +45,7 @@ this is the [ORM](https://stackoverflow.com/a/1279678) we'll use in the backend.
 
 ### Installing
 
--   in the `bussy` folder from the terminal, run the following commands:
+-   in the `busse` folder from the terminal, run the following commands:
     ```bash
     # this installs all the js/ts dependencies in the package.json
     # and migrates the database (https://www.prisma.io/docs/concepts/components/prisma-migrate)

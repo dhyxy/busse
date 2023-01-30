@@ -1,5 +1,5 @@
 {
-  "name": "bussy",
+  "name": "busse",
   "version": "1.0.0",
   "description": "seng 401 project",
   "main": "index.ts",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dhyxy/bussy.git"
+    "url": "git+https://github.com/dhyxy/busse.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dhyxy/bussy/issues"
+    "url": "https://github.com/dhyxy/busse/issues"
   },
-  "homepage": "https://github.com/dhyxy/bussy#readme",
+  "homepage": "https://github.com/dhyxy/busse#readme",
   "devDependencies": {
     "@types/express": "^4.17.16",
     "@types/morgan": "^1.9.4",
