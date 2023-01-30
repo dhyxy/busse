@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import express, { Request, Response } from 'express';
 import morgan from 'morgan';
-import { AddressInfo } from 'net';
+import {AddressInfo} from 'net';
 
 const PORT = 8080;
 
@@ -10,7 +10,8 @@ const prisma = new PrismaClient();
 
 app.use(morgan('dev'));
 
-app.get('/', (_req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => 
+{
     res.send('server is up 🤩');
 });
 
