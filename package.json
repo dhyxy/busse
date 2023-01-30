@@ -8,6 +8,7 @@
     "install": "npm run db",
     "db": "npx prisma migrate dev",
     "lint": "eslint . --fix",
+    "ci-lint": "eslint .",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   },
   "repository": {

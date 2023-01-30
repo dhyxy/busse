@@ -15,4 +15,4 @@ jobs:
       - name: install npm deps
         run: npm ci
       - name: run lint
-        run: npm run lint
+        run: npm run ci-lint
