@@ -1,0 +1,15 @@
+name: check code formatting and linting 🧹
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    name: check code formatting and linting 🧹
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install npm deps
+        run: npm ci
+      - name: run lint
+        run: npm run lint
