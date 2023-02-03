@@ -66,6 +66,7 @@ router.post(
 router.post(
     '/refreshToken',
     body('refreshToken').isString().trim(),
+    validate,
     async (req, res) => {
         const { refreshToken } = req.body as RefreshTokenReq,
             parsed = jsonwebtoken.verify(
