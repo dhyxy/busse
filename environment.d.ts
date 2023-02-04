@@ -9,7 +9,7 @@ declare global {
     }
     namespace Express {
         export interface Request {
-            auth: JwtPayload;
+            auth?: JwtPayload;
         }
     }
 }
