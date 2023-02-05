@@ -1,10 +1,14 @@
 {
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": true,
+    "eslint.enable": true,
+    "eslint.debug": true,
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true,
-        "source.organizeImports": true
+        "source.fixAll": true
     },
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "[prisma]": {
+        "editor.defaultFormatter": "Prisma.prisma"
+    },
+    "eslint.alwaysShowStatus": true,
+    "eslint.format.enable": true
 }
