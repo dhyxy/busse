@@ -5,7 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import { AddressInfo } from 'net';
 import api from './api';
-import db from './db';
+import db from './api/db';
 
 const PORT = 8080;
 

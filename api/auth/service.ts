@@ -1,31 +1,32 @@
-import db from '../../db';
+import db from '../db';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { JwtPayload, TokenResp } from './types';
 import jsonwebtoken from 'jsonwebtoken';
 
-const SALT_ROUNDS = 10;
-
 export async function registerUser(
     email: string,
     password: string,
     name: string,
-) {
+): Promise<TokenResp> {
     const existingUser = await db.user.findUnique({ where: { email } });
     if (existingUser) {
         throw new createHttpError.MethodNotAllowed('user already exists');
     }
 
-    const hashedPassword = bcrypt.hashSync(password, SALT_ROUNDS),
-        user = await db.user.create({
-            data: { email, password: hashedPassword, name },
-        }),
-        tokens = makeTokenResp(email);
+    const hashedPassword = makePassword(password);
+    const user = await db.user.create({
+        data: { email, password: hashedPassword, name },
+    });
+    const tokens = makeTokenResp(email);
     await updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
 }
 
-export async function loginUser(email: string, password: string) {
+export async function loginUser(
+    email: string,
+    password: string,
+): Promise<TokenResp> {
     const user = await db.user.findUnique({ where: { email } });
     if (!user) {
         throw new createHttpError.NotFound('user does not exist');
@@ -40,7 +41,7 @@ export async function loginUser(email: string, password: string) {
     return tokens;
 }
 
-export async function refreshToken(refreshToken: string) {
+export async function refreshToken(refreshToken: string): Promise<TokenResp> {
     const parsed = jsonwebtoken.verify(
         refreshToken,
         process.env.JWT_REFRESH_SECRET,
@@ -83,6 +84,12 @@ export async function logoutUser(email: string) {
             },
         },
     });
+}
+
+const SALT_ROUNDS = 10;
+
+export function makePassword(password: string) {
+    return bcrypt.hashSync(password, SALT_ROUNDS);
 }
 
 function makeTokenResp(email: string): TokenResp {

@@ -1,4 +1,4 @@
-name: check code formatting and linting 🧹
+name: check code 🧹
 on:
   pull_request:
     branches:
@@ -8,7 +8,7 @@ on:
       - main
 jobs:
   test:
-    name: check code formatting and linting 🧹
+    name: check code 🧹
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,3 +16,5 @@ jobs:
         run: npm ci
       - name: run lint
         run: npm run ci-lint
+      - name: run tests
+        run: npm test

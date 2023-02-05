@@ -22,3 +22,7 @@ export const handleServiceError = (
         ? res.status(serviceError.status).json(makeErrors(serviceError.message))
         : res.status(500).json(makeErrors(String(serviceError)));
 };
+
+// eslint-disable-next-line
+type ShapeOf<T> = Record<keyof T, any>;
+export type AssertKeysEqual<X extends ShapeOf<Y>, Y extends ShapeOf<X>> = never;
