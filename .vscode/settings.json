@@ -10,5 +10,10 @@
         "editor.defaultFormatter": "Prisma.prisma"
     },
     "eslint.alwaysShowStatus": true,
-    "eslint.format.enable": true
+    "eslint.format.enable": true,
+    "eslint.workingDirectories": ["./api", "./client"],
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "editor.formatOnSave": true
 }
