@@ -18,3 +18,5 @@ jobs:
         run: npm run ci-lint
       - name: run tests
         run: npm test
+      - name: run frontend tests
+        run: cd client && npm test

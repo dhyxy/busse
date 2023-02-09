@@ -6,4 +6,5 @@ module.exports = {
     useStderr: true,
     setupFiles: ['dotenv/config'],
     setupFilesAfterEnv: ['./api/db.test.ts'],
+    testPathIgnorePatterns: ['./client'], // jest config separate for react
 };
