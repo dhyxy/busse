@@ -3,6 +3,7 @@ import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { JwtPayload, TokenResp } from './types';
 import jsonwebtoken from 'jsonwebtoken';
+import { User } from '@prisma/client';
 
 export async function registerUser(
     email: string,
@@ -18,7 +19,7 @@ export async function registerUser(
     const user = await db.user.create({
         data: { email, password: hashedPassword, name },
     });
-    const tokens = makeTokenResp(email);
+    const tokens = makeTokenResp(user);
     await updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
 }
@@ -36,7 +37,7 @@ export async function loginUser(
         throw new createHttpError.Unauthorized('invalid password');
     }
 
-    const tokens = makeTokenResp(email);
+    const tokens = makeTokenResp(user);
     await updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
 }
@@ -70,7 +71,7 @@ export async function refreshToken(refreshToken: string): Promise<TokenResp> {
         throw new createHttpError.Unauthorized('invalid refresh token');
     }
 
-    const tokens = makeTokenResp(userWithTokens.email);
+    const tokens = makeTokenResp(userWithTokens);
     await updateRefreshToken(userWithTokens.id, tokens.refreshToken);
     return tokens;
 }
@@ -92,7 +93,10 @@ export function makePassword(password: string) {
     return bcrypt.hashSync(password, SALT_ROUNDS);
 }
 
-function makeTokenResp(email: string): TokenResp {
+function makeTokenResp(user: User): TokenResp {
+    const email = user.email;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _, ...maskedUser } = user;
     return {
         accessToken: jsonwebtoken.sign(
             { email },
@@ -102,6 +106,7 @@ function makeTokenResp(email: string): TokenResp {
             },
         ),
         ...makeRefreshToken(email),
+        user: maskedUser,
     };
 }
 

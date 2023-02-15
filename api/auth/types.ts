@@ -1,5 +1,5 @@
+import { User } from '@prisma/client';
 import { JwtPayload as BaseJwtPayload } from 'jsonwebtoken';
-import { Request as JWTRequest } from 'express-jwt';
 
 export interface RegisterUserReq {
     email: string;
@@ -12,9 +12,12 @@ export interface LoginUserReq {
     password: string;
 }
 
+export type UserResp = Omit<User, 'password'>;
+
 export interface TokenResp {
     accessToken: string;
     refreshToken: string;
+    user: UserResp;
 }
 
 export interface RefreshTokenReq {
@@ -24,5 +27,3 @@ export interface RefreshTokenReq {
 export interface JwtPayload extends BaseJwtPayload {
     email: string;
 }
-
-export type Request = JWTRequest<JwtPayload>;
