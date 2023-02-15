@@ -1,27 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import { withUser } from '../../contexts/user';
+import { Outlet } from 'react-router-dom';
 
-function App() {
+const App = () => {
+  const user = withUser();
+
   return (
-    <Container>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </Container>
+    <>
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand href="/">home</Navbar.Brand>
+          <Nav>
+            <Nav.Link href="/profile">profile</Nav.Link>
+            {user != null ? (
+              <Nav.Link href="/logout">logout</Nav.Link>
+            ) : (
+              <Nav.Link href="/login">login</Nav.Link>
+            )}
+          </Nav>
+        </Container>
+      </Navbar>
+      <Outlet />
+    </>
   );
-}
+};
 
 export default App;

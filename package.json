@@ -9,7 +9,7 @@
     "db": "npx prisma migrate dev",
     "lint": "eslint . --fix",
     "ci-lint": "eslint .",
-    "dev": "nodemon index.ts"
+    "dev": "nodemon index.ts --ignore client/*"
   },
   "repository": {
     "type": "git",
@@ -70,7 +70,12 @@
       "prettier"
     ],
     "rules": {
-      "prettier/prettier": "error",
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ],
       "no-console": "warn",
       "no-eval": "error",
       "no-var": "error"
