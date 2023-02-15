@@ -70,7 +70,12 @@
       "prettier"
     ],
     "rules": {
-      "prettier/prettier": "error",
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ],
       "no-console": "warn",
       "no-eval": "error",
       "no-var": "error"
