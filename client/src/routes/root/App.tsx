@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { withUser } from '../../contexts/user';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 const App = () => {
   const user = withUser();
@@ -12,13 +12,21 @@ const App = () => {
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="/">home</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">
+            home
+          </Navbar.Brand>
           <Nav>
-            <Nav.Link href="/profile">profile</Nav.Link>
+            <Nav.Link as={Link} to="/">
+              profile
+            </Nav.Link>
             {user != null ? (
-              <Nav.Link href="/logout">logout</Nav.Link>
+              <Nav.Link as={Link} to="/logout">
+                logout
+              </Nav.Link>
             ) : (
-              <Nav.Link href="/login">login</Nav.Link>
+              <Nav.Link as={Link} to="/login">
+                login
+              </Nav.Link>
             )}
           </Nav>
         </Container>
