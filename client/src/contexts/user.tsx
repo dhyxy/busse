@@ -12,6 +12,7 @@ import {
 import { useLocalStorage, useReadLocalStorage } from 'usehooks-ts';
 import { LocalStorageKey } from '../constants';
 import { AxiosError, HttpStatusCode } from 'axios';
+import { UserResp } from '@backend/auth/types';
 
 type User = Partial<DBTypes.User> | null;
 type SetUserAction = Dispatch<SetStateAction<User>>;
@@ -58,14 +59,20 @@ const useAuthHeaders = () => {
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User>(null);
   useAuthHeaders();
-
-  const authKey = useReadLocalStorage(LocalStorageKey.AUTH);
+  const authKey = useReadLocalStorage<string>(LocalStorageKey.AUTH);
 
   useEffect(() => {
+    const refetchUser = async () => {
+      const userResp = await http.private.get<UserResp>('/api/auth/whoAmI');
+      setUser(userResp.data);
+    };
+
     if (!authKey) {
       setUser(null);
+    } else if (authKey && !user) {
+      refetchUser();
     }
-  }, [authKey]);
+  }, [setUser]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

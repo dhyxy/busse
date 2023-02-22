@@ -1,7 +1,7 @@
 import db from '../db';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
-import { JwtPayload, TokenResp } from './types';
+import { JwtPayload, TokenResp, UserResp } from './types';
 import jsonwebtoken from 'jsonwebtoken';
 import { User } from '@prisma/client';
 
@@ -87,6 +87,14 @@ export async function logoutUser(email: string) {
     });
 }
 
+export async function whoAmI(email: string): Promise<UserResp> {
+    const user = await db.user.findUnique({ where: { email } });
+    if (!user) {
+        throw new createHttpError.Unauthorized('invalid email');
+    }
+    return maskUser(user);
+}
+
 const SALT_ROUNDS = 10;
 
 export function makePassword(password: string) {
@@ -96,7 +104,6 @@ export function makePassword(password: string) {
 function makeTokenResp(user: User): TokenResp {
     const email = user.email;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: _, ...maskedUser } = user;
     return {
         accessToken: jsonwebtoken.sign(
             { email },
@@ -106,8 +113,13 @@ function makeTokenResp(user: User): TokenResp {
             },
         ),
         ...makeRefreshToken(email),
-        user: maskedUser,
+        user: maskUser(user),
     };
+}
+
+function maskUser(user: User): UserResp {
+    const { password: _, ...maskedUser } = user;
+    return maskedUser;
 }
 
 function makeRefreshToken(email: string) {

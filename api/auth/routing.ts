@@ -68,4 +68,16 @@ router.post('/logout', async (req, res, next) => {
     }
 });
 
+router.get('/whoami', async (req, res, next) => {
+    try {
+        const email = req.auth?.email;
+        if (!email) {
+            return res.status(401).json();
+        }
+        return res.json(service.whoAmI(email));
+    } catch (err) {
+        next(err);
+    }
+});
+
 export default router;
