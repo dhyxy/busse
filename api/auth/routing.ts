@@ -1,9 +1,10 @@
 import express from 'express';
 import { body } from 'express-validator';
+
 import { validate } from '../middleware';
 import { makeErrors } from '../util';
-import { LoginUserReq, RefreshTokenReq, RegisterUserReq } from './types';
 import * as service from './service';
+import type { LoginUserReq, RefreshTokenReq, RegisterUserReq } from './types';
 
 const router = express.Router();
 

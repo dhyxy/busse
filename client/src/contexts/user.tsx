@@ -1,18 +1,13 @@
-import { DBTypes } from '@backend/types';
-import http from '../http';
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import type { UserResp } from '@backend/auth/types';
+import type { DBTypes } from '@backend/types';
+import type { AxiosError } from 'axios';
+import { HttpStatusCode } from 'axios';
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useLocalStorage, useReadLocalStorage } from 'usehooks-ts';
+
 import { LocalStorageKey } from '../constants';
-import { AxiosError, HttpStatusCode } from 'axios';
-import { UserResp } from '@backend/auth/types';
+import http from '../http';
 
 type User = Partial<DBTypes.User> | null;
 type SetUserAction = Dispatch<SetStateAction<User>>;
@@ -27,7 +22,7 @@ export const UserContext = createContext<UserContextType>(
 );
 
 /** Returns current user, prefer this over `useContext(...)` */
-export const withUser = () => {
+export const useUser = () => {
   const { user } = useContext(UserContext);
   return user;
 };
@@ -38,7 +33,7 @@ const useAuthHeaders = () => {
   http.private.interceptors.response.use(
     (_) => _,
     (err: AxiosError) => {
-      if (err.status == HttpStatusCode.Unauthorized) {
+      if (err.status === HttpStatusCode.Unauthorized) {
         setAuthKey('');
       }
       return Promise.reject(err.message);
@@ -72,7 +67,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     } else if (authKey && !user) {
       refetchUser();
     }
-  }, [setUser]);
+  }, [authKey, user, setUser]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

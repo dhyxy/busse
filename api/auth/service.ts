@@ -1,9 +1,10 @@
-import db from '../db';
-import createHttpError from 'http-errors';
+import type { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import { JwtPayload, TokenResp, UserResp } from './types';
+import createHttpError from 'http-errors';
 import jsonwebtoken from 'jsonwebtoken';
-import { User } from '@prisma/client';
+
+import db from '../db';
+import type { JwtPayload, TokenResp, UserResp } from './types';
 
 export async function registerUser(
     email: string,

@@ -1,5 +1,5 @@
-import { User } from '@prisma/client';
-import { JwtPayload as BaseJwtPayload } from 'jsonwebtoken';
+import type { User } from '@prisma/client';
+import type { JwtPayload as BaseJwtPayload } from 'jsonwebtoken';
 
 export interface RegisterUserReq {
     email: string;

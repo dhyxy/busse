@@ -1,4 +1,5 @@
-import { HttpError } from 'http-errors';
+import type { HttpError } from 'http-errors';
+
 import * as DBTypes from '../node_modules/.prisma/client';
 
 export interface Errors {
