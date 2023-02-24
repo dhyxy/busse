@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import type { AddressInfo } from 'net';
 
 import api from './api';
-import db from './api/db';
+import { db } from './api/db';
 
 const PORT = 8080;
 

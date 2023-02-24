@@ -1,6 +1,6 @@
 import type { Prisma, Question, User } from '@prisma/client';
 
-import db from '../db';
+import { db } from '../db';
 
 const MAX_QUESTIONS_PER_PAGE = 15;
 
