@@ -15,7 +15,7 @@ const App = () => {
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand as={Link} to="/">
-            home
+            bussé
           </Navbar.Brand>
           <Nav>
             <Nav.Link as={Link} to="/">

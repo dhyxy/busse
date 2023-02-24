@@ -118,7 +118,7 @@ function makeTokenResp(user: User): TokenResp {
     };
 }
 
-function maskUser(user: User): UserResp {
+export function maskUser(user: User): UserResp {
     const { password: _, ...maskedUser } = user;
     return maskedUser;
 }
