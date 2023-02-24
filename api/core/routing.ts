@@ -1,5 +1,5 @@
 import express from 'express';
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import createHttpError from 'http-errors';
 
 import { jwtGuard, validate } from '../middleware';
@@ -27,6 +27,21 @@ router.get('/questions', async (req, res, next) => {
         next(err);
     }
 });
+
+router.get(
+    '/questions/:questionId',
+    param('questionId').exists().isInt(),
+    validate,
+    async (req, res, next) => {
+        try {
+            const questionId = Number(req.params['questionId']);
+            const question = await service.getQuestion(questionId);
+            res.status(200).json(question);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
 
 router.post(
     '/questions',

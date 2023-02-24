@@ -15,6 +15,15 @@ export async function getQuestions(cursorId?: CursorType) {
     return questions;
 }
 
+export async function getQuestion(questionId: Question['id']) {
+    return await db.question.findUnique({
+        where: {
+            id: questionId,
+        },
+        include: { author: true },
+    });
+}
+
 export async function createQuestion(
     question: Prisma.QuestionCreateWithoutAuthorInput,
     authorId: User['id'],
