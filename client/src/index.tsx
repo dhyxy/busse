@@ -5,21 +5,21 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import Navbar from './components/navbar';
 import { UserProvider } from './contexts/user';
 import LoginPage from './routes/login/LoginPage';
 import Logout from './routes/logout/Logout';
 import QuestionPage from './routes/q/QuestionPage';
-import App from './routes/root/App';
-import Feed from './routes/root/Feed';
+import Homepage from './routes/root/Homepage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Navbar />,
     children: [
       { path: '/login', element: <LoginPage /> },
       { path: '/logout', element: <Logout /> },
-      { path: '/', element: <Feed /> },
+      { path: '/', element: <Homepage /> },
       { path: '/q/:id', element: <QuestionPage /> },
     ],
   },

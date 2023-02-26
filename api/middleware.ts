@@ -29,9 +29,9 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
     return handleServiceError(res, err);
 };
 
-export const jwtGuard = () => {
-    return expressjwt({
-        secret: process.env.JWT_ACCESS_SECRET,
-        algorithms: ['HS256'],
-    });
-};
+const JWT_GUARD = expressjwt({
+    secret: process.env.JWT_ACCESS_SECRET,
+    algorithms: ['HS256'],
+});
+
+export const jwtGuard = () => JWT_GUARD;

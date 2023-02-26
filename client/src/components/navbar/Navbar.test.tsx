@@ -2,16 +2,16 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { UserContext } from '../../contexts/user';
-import App from './App';
+import Navbar from '.';
 
 const wrapper = BrowserRouter;
 
 test('app renders', () => {
-  render(<App />, { wrapper });
+  render(<Navbar />, { wrapper });
 });
 
 test('app shows login button', () => {
-  render(<App />, { wrapper });
+  render(<Navbar />, { wrapper });
 
   const loginButton = screen.getByText('login');
   const logoutButton = screen.queryByText('logout');
@@ -25,7 +25,7 @@ test('app shows logout button', () => {
     <UserContext.Provider
       value={{ user: { email: 'test@test.com' }, setUser: (_) => _ }}
     >
-      <App />
+      <Navbar />
     </UserContext.Provider>,
     { wrapper },
   );
