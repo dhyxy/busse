@@ -8,7 +8,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { UserProvider } from './contexts/user';
 import LoginPage from './routes/login/LoginPage';
 import Logout from './routes/logout/Logout';
+import QuestionPage from './routes/q/QuestionPage';
 import App from './routes/root/App';
+import Feed from './routes/root/Feed';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,8 @@ const router = createBrowserRouter([
     children: [
       { path: '/login', element: <LoginPage /> },
       { path: '/logout', element: <Logout /> },
+      { path: '/', element: <Feed /> },
+      { path: '/q/:id', element: <QuestionPage /> },
     ],
   },
 ]);

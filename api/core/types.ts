@@ -5,3 +5,5 @@ export interface PostQuestionReq {
 }
 
 export type GetQuestionResp = Awaited<ReturnType<typeof getQuestion>>;
+
+export type { Question } from '@prisma/client';
