@@ -1,6 +1,6 @@
-import { mockDeep, mockReset } from 'jest-mock-extended';
-import { PrismaClient } from '@prisma/client';
 import { jest } from '@jest/globals';
+import type { PrismaClient } from '@prisma/client';
+import { mockDeep, mockReset } from 'jest-mock-extended';
 
 const mockDb = mockDeep<PrismaClient>();
 

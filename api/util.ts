@@ -1,6 +1,7 @@
-import express from 'express';
+import type express from 'express';
 import { HttpError } from 'http-errors';
-import { Errors, ServiceError } from './types';
+
+import type { Errors, ServiceError } from './types';
 
 /**
  * Create errors object for API response

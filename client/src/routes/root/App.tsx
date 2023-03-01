@@ -1,12 +1,14 @@
 import './App.css';
+
 import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { withUser } from '../../contexts/user';
+import Navbar from 'react-bootstrap/Navbar';
 import { Link, Outlet } from 'react-router-dom';
 
+import { useUser } from '../../contexts/user';
+
 const App = () => {
-  const user = withUser();
+  const user = useUser();
 
   return (
     <>

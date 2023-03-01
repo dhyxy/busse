@@ -1,4 +1,4 @@
-import { JwtPayload } from './api/auth/types';
+import type { JwtPayload } from './api/auth/types';
 
 declare global {
     namespace NodeJS {

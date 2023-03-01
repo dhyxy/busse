@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
+
 import { LocalStorageKey } from '../../constants';
 import { UserContext } from '../../contexts/user';
 import http from '../../http';
@@ -17,7 +18,7 @@ const Logout = () => {
     }
     setUser(null);
     navigate('/');
-  }, []);
+  }, [authKey, navigate, setAuthKey, setUser]);
 
   return <></>;
 };

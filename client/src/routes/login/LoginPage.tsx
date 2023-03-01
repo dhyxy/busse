@@ -1,17 +1,18 @@
-import Container from 'react-bootstrap/Container';
+import type { LoginUserReq, TokenResp } from '@backend/auth/types';
+import axios from 'axios';
+import { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
-import isEmail from 'validator/lib/isEmail';
-import http from '../../http';
-import { LoginUserReq, TokenResp } from '@backend/auth/types';
-import { useContext } from 'react';
-import { UserContext, withUser } from '../../contexts/user';
-import StatusCode from 'status-code-enum';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { LocalStorageKey } from '../../constants';
+import StatusCode from 'status-code-enum';
 import { useLocalStorage } from 'usehooks-ts';
+import isEmail from 'validator/lib/isEmail';
+
+import { LocalStorageKey } from '../../constants';
+import { UserContext, useUser } from '../../contexts/user';
+import http from '../../http';
 
 type LoginFormData = LoginUserReq;
 
@@ -19,7 +20,7 @@ const required = 'this field is required';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const user = withUser();
+  const user = useUser();
   if (user) {
     navigate('/');
   }

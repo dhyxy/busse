@@ -1,5 +1,6 @@
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import createHttpError from 'http-errors';
+
 import mockDb from '../db.test';
 import * as service from './service';
 
