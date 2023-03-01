@@ -9,6 +9,7 @@ import Navbar from './components/navbar';
 import { UserProvider } from './contexts/user';
 import LoginPage from './routes/login/LoginPage';
 import Logout from './routes/logout/Logout';
+import AskQuestion from './routes/q/ask/AskQuestion';
 import QuestionPage from './routes/q/QuestionPage';
 import Homepage from './routes/root/Homepage';
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       { path: '/login', element: <LoginPage /> },
       { path: '/logout', element: <Logout /> },
       { path: '/', element: <Homepage /> },
+      { path: '/ask', element: <AskQuestion /> },
       { path: '/q/:id', element: <QuestionPage /> },
     ],
   },
