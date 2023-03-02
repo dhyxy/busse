@@ -4,10 +4,7 @@ import { mockDeep, mockReset } from 'jest-mock-extended';
 
 const mockDb = mockDeep<PrismaClient>();
 
-jest.mock('./db', () => ({
-    __esModule: true,
-    default: mockDb,
-}));
+jest.mock('./db', () => ({ base: mockDb, db: mockDb }));
 
 beforeEach(() => {
     mockReset(mockDb);
