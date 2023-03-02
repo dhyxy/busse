@@ -4,7 +4,7 @@ import createHttpError from 'http-errors';
 
 import { jwtGuard, validate } from '../middleware';
 import * as service from './service';
-import type { PostQuestionReq } from './types';
+import type { PatchAnswerReq, PostAnswerReq, PostQuestionReq } from './types';
 
 const router = express.Router();
 
@@ -52,16 +52,14 @@ router.post(
     validate,
     async (req, res, next) => {
         try {
-            const email = req.auth?.email;
-            if (!email) {
-                throw new createHttpError.Unauthorized('invalid auth');
-            }
+            const email = assertUserEmail(req.auth?.email);
             const { question } = req.body as PostQuestionReq;
+
             const user = await service.getUser(email);
-            const savedQuestion = await service.createQuestion(
-                question,
-                user.id,
-            );
+            const savedQuestion = await service.createQuestion({
+                ...question,
+                author: { connect: { id: user.id } },
+            });
 
             return res.status(200).json(savedQuestion);
         } catch (err) {
@@ -69,5 +67,66 @@ router.post(
         }
     },
 );
+
+router.post(
+    '/questions/:questionId/answers',
+    jwtGuard(),
+    param('questionId').exists().isInt(),
+    body('answer').exists().isObject(),
+    body('answer.text').exists().isString(),
+    validate,
+    async (req, res, next) => {
+        try {
+            const questionId = Number(req.params['questionId']);
+            const email = assertUserEmail(req.auth?.email);
+            const { answer } = req.body as PostAnswerReq;
+
+            const user = await service.getUser(email);
+            const savedAnswer = await service.postAnswer({
+                ...answer,
+                author: { connect: { id: user.id } },
+                question: { connect: { id: questionId } },
+            });
+
+            return res.status(200).json(savedAnswer);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+router.patch(
+    '/answers/:answerId',
+    jwtGuard(),
+    param('questionId').exists().isInt(),
+    param('answerId').exists().isInt(),
+    body('answer').exists().isObject(),
+    body('answer.text').exists().isString(),
+    async (req, res, next) => {
+        try {
+            const answerId = Number(req.params['answerId']);
+            const email = assertUserEmail(req.auth?.email);
+            const { answer: answerData } = req.body as PatchAnswerReq;
+
+            const user = await service.getUser(email);
+            const updatedAnswer = await service.patchAnswer(
+                user.id,
+                answerId,
+                answerData,
+            );
+
+            return res.status(200).json(updatedAnswer);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+function assertUserEmail(email?: string): string {
+    if (!email) {
+        throw createHttpError.Unauthorized('invalid auth');
+    }
+    return email;
+}
 
 export default router;
