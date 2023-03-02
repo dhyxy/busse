@@ -1,5 +1,6 @@
 import type express from 'express';
-import { HttpError } from 'http-errors';
+import { UnauthorizedError } from 'express-jwt';
+import createHttpError, { HttpError } from 'http-errors';
 
 import type { Errors, ServiceError } from './types';
 
@@ -19,6 +20,12 @@ export const handleServiceError = (
     res: express.Response,
     serviceError: ServiceError,
 ) => {
+    if (serviceError instanceof UnauthorizedError) {
+        serviceError = createHttpError.Unauthorized(
+            serviceError.message ?? serviceError.inner.message,
+        );
+    }
+
     return serviceError instanceof HttpError
         ? res.status(serviceError.status).json(makeErrors(serviceError.message))
         : res.status(500).json(makeErrors(String(serviceError)));

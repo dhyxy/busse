@@ -1,5 +1,6 @@
 import type { ErrorRequestHandler } from 'express';
 import type express from 'express';
+import { expressjwt } from 'express-jwt';
 import { validationResult } from 'express-validator';
 
 import { handleServiceError, makeErrors } from './util';
@@ -27,3 +28,10 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
     }
     return handleServiceError(res, err);
 };
+
+const JWT_GUARD = expressjwt({
+    secret: process.env.JWT_ACCESS_SECRET,
+    algorithms: ['HS256'],
+});
+
+export const jwtGuard = () => JWT_GUARD;

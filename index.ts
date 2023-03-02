@@ -1,5 +1,7 @@
-import cors from 'cors';
 import dotenv from 'dotenv';
+dotenv.config();
+
+import cors from 'cors';
 import type { Request, Response } from 'express';
 import express from 'express';
 import helmet from 'helmet';
@@ -7,11 +9,9 @@ import morgan from 'morgan';
 import type { AddressInfo } from 'net';
 
 import api from './api';
-import db from './api/db';
+import { db } from './api/db';
 
 const PORT = 8080;
-
-dotenv.config();
 
 const app = express();
 
