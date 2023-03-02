@@ -1,5 +1,7 @@
-import express, { ErrorRequestHandler } from 'express';
+import type { ErrorRequestHandler } from 'express';
+import type express from 'express';
 import { validationResult } from 'express-validator';
+
 import { handleServiceError, makeErrors } from './util';
 
 export const validate = (

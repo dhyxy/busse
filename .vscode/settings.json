@@ -11,7 +11,10 @@
     },
     "eslint.alwaysShowStatus": true,
     "eslint.format.enable": true,
-    "eslint.workingDirectories": ["./api", "./client"],
+    "eslint.workingDirectories": [
+        "./api",
+        "./client"
+    ],
     "[typescriptreact]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },

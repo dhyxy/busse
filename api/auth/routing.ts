@@ -1,9 +1,10 @@
 import express from 'express';
 import { body } from 'express-validator';
+
 import { validate } from '../middleware';
 import { makeErrors } from '../util';
-import { LoginUserReq, RefreshTokenReq, RegisterUserReq } from './types';
 import * as service from './service';
+import type { LoginUserReq, RefreshTokenReq, RegisterUserReq } from './types';
 
 const router = express.Router();
 
@@ -63,6 +64,18 @@ router.post('/logout', async (req, res, next) => {
     try {
         await service.logoutUser(email);
         return res.status(204).end();
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get('/whoami', async (req, res, next) => {
+    try {
+        const email = req.auth?.email;
+        if (!email) {
+            return res.status(401).json();
+        }
+        return res.json(service.whoAmI(email));
     } catch (err) {
         next(err);
     }
