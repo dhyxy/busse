@@ -2,9 +2,9 @@ import express from 'express';
 import { body } from 'express-validator';
 
 import { jwtGuard, validate } from '../middleware';
-import { makeErrors } from '../util';
 import * as service from './service';
 import type { LoginUserReq, RefreshTokenReq, RegisterUserReq } from './types';
+import { assertUserEmail } from './util';
 
 const router = express.Router();
 
@@ -58,10 +58,7 @@ router.post(
 );
 
 router.post('/logout', jwtGuard(), async (req, res, next) => {
-    const email = req.auth?.email;
-    if (!email) {
-        return res.status(401).json(makeErrors('invalid authorization'));
-    }
+    const email = assertUserEmail(req.auth?.email);
     try {
         await service.logoutUser(email);
         return res.status(204).end();
@@ -72,11 +69,9 @@ router.post('/logout', jwtGuard(), async (req, res, next) => {
 
 router.get('/whoami', jwtGuard(), async (req, res, next) => {
     try {
-        const email = req.auth?.email;
-        if (!email) {
-            return res.status(401).json();
-        }
-        return res.json(service.whoAmI(email));
+        const email = assertUserEmail(req.auth?.email);
+        const user = await service.whoAmI(email);
+        return res.json(user);
     } catch (err) {
         next(err);
     }

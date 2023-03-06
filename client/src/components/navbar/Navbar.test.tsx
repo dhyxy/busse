@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
+import type { User } from '../../contexts/user';
 import { UserContext } from '../../contexts/user';
 import Navbar from '.';
 
@@ -23,7 +24,7 @@ test('app shows login button', () => {
 test('app shows logout button', () => {
   render(
     <UserContext.Provider
-      value={{ user: { email: 'test@test.com' }, setUser: (_) => _ }}
+      value={{ user: { email: 'test@test.com' } as User, setUser: (_) => _ }}
     >
       <Navbar />
     </UserContext.Provider>,

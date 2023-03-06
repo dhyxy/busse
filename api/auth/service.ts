@@ -119,8 +119,7 @@ function makeTokenResp(user: User): TokenResp {
 }
 
 export function maskUser(user: User): UserResp {
-    const { password: _, ...maskedUser } = user;
-    return maskedUser;
+    return { ...user, password: '' };
 }
 
 function makeRefreshToken(email: string) {

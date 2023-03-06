@@ -1,5 +1,4 @@
 import type { UserResp } from '@backend/auth/types';
-import type { DBTypes } from '@backend/types';
 import type { AxiosError } from 'axios';
 import { HttpStatusCode } from 'axios';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
@@ -8,8 +7,9 @@ import { useLocalStorage, useReadLocalStorage } from 'usehooks-ts';
 
 import { LocalStorageKey } from '../constants';
 import http from '../http';
+import { isEmpty } from '../util';
 
-type User = Partial<DBTypes.User> | null;
+export type User = UserResp | null;
 type SetUserAction = Dispatch<SetStateAction<User>>;
 
 interface UserContextType {
@@ -63,13 +63,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const refetchUser = async () => {
       try {
         const userResp = await http.private.get<UserResp>('/api/auth/whoAmI');
-        setUser(userResp.data);
+        if (!isEmpty(userResp.data)) {
+          setUser(userResp.data);
+        }
       } catch (err) {
-        setUser({});
+        setUser(null);
       }
     };
 
-    if (!authKey) {
+    if (!authKey || (user && isEmpty(user))) {
       setUser(null);
     } else if (authKey && !user) {
       refetchUser();

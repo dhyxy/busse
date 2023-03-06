@@ -19,6 +19,7 @@ model User {
   createdAt     DateTime       @default(now())
   refreshTokens RefreshToken[]
   questions     Question[]
+  answers       Answer[]
 }
 
 model RefreshToken {
@@ -30,10 +31,23 @@ model RefreshToken {
 }
 
 model Question {
-  id        Int      @id @default(autoincrement())
-  title     String
-  body      String
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  title            String
+  body             String
+  authorId         Int
+  author           User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt        DateTime @default(now())
+  answers          Answer[]
+  selectedAnswerId Int?
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  text       String
+  authorId   Int
+  author     User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
