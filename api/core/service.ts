@@ -3,7 +3,7 @@ import type { Prisma } from '@prisma/client';
 import createHttpError from 'http-errors';
 
 import { db } from '../db';
-import type { AnswerPatchData } from './types';
+import type { AnswerCreateData, AnswerPatchData } from './types';
 
 const MAX_QUESTIONS_PER_PAGE = 15;
 
@@ -38,14 +38,15 @@ export async function getUser(email: string) {
     return await db.user.findUniqueOrThrow({ where: { email } });
 }
 
-export async function postAnswer(answer: Prisma.AnswerCreateInput) {
-    if (!answer.question.connect?.id || !answer.author.connect?.id) {
-        throw new Error('question must connect via id');
-    }
+export async function postAnswer(
+    userId: User['id'],
+    questionId: Question['id'],
+    answer: AnswerCreateData,
+) {
     const userAlreadySubmittedAnswer = await db.answer.findFirst({
         where: {
-            questionId: answer.question.connect.id,
-            author: { id: answer.author.connect.id },
+            questionId,
+            author: { id: userId },
         },
     });
 
@@ -56,7 +57,11 @@ export async function postAnswer(answer: Prisma.AnswerCreateInput) {
     }
 
     return await db.answer.create({
-        data: answer,
+        data: {
+            ...answer,
+            author: { connect: { id: userId } },
+            question: { connect: { id: questionId } },
+        },
     });
 }
 

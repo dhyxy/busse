@@ -83,11 +83,11 @@ router.post(
             const { answer } = req.body as PostAnswerReq;
 
             const user = await service.getUser(email);
-            const savedAnswer = await service.postAnswer({
-                ...answer,
-                author: { connect: { id: user.id } },
-                question: { connect: { id: questionId } },
-            });
+            const savedAnswer = await service.postAnswer(
+                user.id,
+                questionId,
+                answer,
+            );
 
             return res.status(200).json(savedAnswer);
         } catch (err) {
