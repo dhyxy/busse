@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useEffectOnce } from 'usehooks-ts';
 
-import { useUser } from '../../../contexts/user';
-import http from '../../../http';
+import { useUser } from '../../contexts/user';
+import http from '../../http';
 
 type QuestionFormData = PostQuestionReq;
 

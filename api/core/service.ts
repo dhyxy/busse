@@ -1,4 +1,5 @@
-import type { Answer, Prisma, Question, User } from '@prisma/client';
+import type { Answer, Question, User } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 import createHttpError from 'http-errors';
 
 import { db } from '../db';
@@ -18,15 +19,13 @@ export async function getQuestions(cursorId?: CursorType) {
 }
 
 export async function getQuestion(questionId: Question['id']) {
-    return await db.question.findUnique({
+    return await db.question.findUniqueOrThrow({
         where: {
             id: questionId,
         },
         include: {
             author: true,
-            answers: {
-                include: { author: true },
-            },
+            answers: { include: { author: true } },
         },
     });
 }

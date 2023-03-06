@@ -20,6 +20,8 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
+app.disable('etag');
+
 app.get('/', (_req: Request, res: Response) => {
     res.send('server is up 🤩');
 });

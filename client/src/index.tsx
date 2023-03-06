@@ -7,9 +7,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Navbar from './components/navbar';
 import { UserProvider } from './contexts/user';
+import AskQuestion from './routes/ask/AskQuestion';
 import LoginPage from './routes/login/LoginPage';
 import Logout from './routes/logout/Logout';
-import AskQuestion from './routes/q/ask/AskQuestion';
 import QuestionPage from './routes/q/QuestionPage';
 import Homepage from './routes/root/Homepage';
 

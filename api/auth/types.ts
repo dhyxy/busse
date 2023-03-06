@@ -12,7 +12,8 @@ export interface LoginUserReq {
     password: string;
 }
 
-export type UserResp = Omit<User, 'password'>;
+/** [password] will always be '' for most purposes */
+export type UserResp = Omit<User, 'password'> & { password: '' | string };
 
 export interface TokenResp {
     accessToken: string;

@@ -2,6 +2,7 @@ import express from 'express';
 import { body, param } from 'express-validator';
 import createHttpError from 'http-errors';
 
+import { assertUserEmail } from '../auth/util';
 import { jwtGuard, validate } from '../middleware';
 import * as service from './service';
 import type { PatchAnswerReq, PostAnswerReq, PostQuestionReq } from './types';
@@ -121,12 +122,5 @@ router.patch(
         }
     },
 );
-
-function assertUserEmail(email?: string): string {
-    if (!email) {
-        throw createHttpError.Unauthorized('invalid auth');
-    }
-    return email;
-}
 
 export default router;
