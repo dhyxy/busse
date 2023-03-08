@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import jsonwebtoken from 'jsonwebtoken';
 
-import db from '../db';
+import { base, db } from '../db';
 import type { JwtPayload, TokenResp, UserResp } from './types';
 
 export async function registerUser(
@@ -13,7 +13,7 @@ export async function registerUser(
 ): Promise<TokenResp> {
     const existingUser = await db.user.findUnique({ where: { email } });
     if (existingUser) {
-        throw new createHttpError.MethodNotAllowed('user already exists');
+        throw new createHttpError.BadRequest('user already exists');
     }
 
     const hashedPassword = makePassword(password);
@@ -29,7 +29,7 @@ export async function loginUser(
     email: string,
     password: string,
 ): Promise<TokenResp> {
-    const user = await db.user.findUnique({ where: { email } });
+    const user = await base.user.findUnique({ where: { email } });
     if (!user) {
         throw new createHttpError.NotFound('user does not exist');
     }
@@ -118,9 +118,8 @@ function makeTokenResp(user: User): TokenResp {
     };
 }
 
-function maskUser(user: User): UserResp {
-    const { password: _, ...maskedUser } = user;
-    return maskedUser;
+export function maskUser(user: User): UserResp {
+    return { ...user, password: '' };
 }
 
 function makeRefreshToken(email: string) {

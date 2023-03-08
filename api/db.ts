@@ -1,3 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-export default new PrismaClient();
+export const base = new PrismaClient();
+export const db = base.$extends({
+    result: { user: { password: { needs: {}, compute: () => '' } } },
+});

@@ -49,7 +49,15 @@
         }
       ],
       "react/jsx-uses-react": "off",
-      "react/react-in-jsx-scope": "off"
+      "react/react-in-jsx-scope": "off",
+      "no-restricted-imports": [
+        2,
+        "react-bootstrap"
+      ],
+      "no-restricted-modules": [
+        2,
+        "react-bootstrap"
+      ]
     },
     "ignorePatterns": [
       "./**.json",

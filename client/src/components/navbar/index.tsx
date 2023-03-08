@@ -1,22 +1,22 @@
-import './App.css';
+import './Navbar.css';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import BSNavbar from 'react-bootstrap/Navbar';
 import { Link, Outlet } from 'react-router-dom';
 
 import { useUser } from '../../contexts/user';
 
-const App = () => {
+const Navbar = () => {
   const user = useUser();
 
   return (
     <>
-      <Navbar bg="dark" variant="dark">
+      <BSNavbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand as={Link} to="/">
-            home
-          </Navbar.Brand>
+          <BSNavbar.Brand as={Link} to="/">
+            bussé
+          </BSNavbar.Brand>
           <Nav>
             <Nav.Link as={Link} to="/">
               profile
@@ -32,10 +32,10 @@ const App = () => {
             )}
           </Nav>
         </Container>
-      </Navbar>
+      </BSNavbar>
       <Outlet />
     </>
   );
 };
 
-export default App;
+export default Navbar;
