@@ -12,6 +12,11 @@ router.post(
     '/register',
     body('email').isEmail().normalizeEmail(),
     body('password').isString().trim().isLength({ min: 6 }),
+    // body('passwordA')
+    //     .isString()
+    //     .trim()
+    //     .isLength({ min: 6 })
+    //     .matches('password'),
     body('name').isString().trim().isLength({ min: 1 }),
     validate,
     async (req, res, next) => {

@@ -11,6 +11,7 @@ import AskQuestion from './routes/ask/AskQuestion';
 import LoginPage from './routes/login/LoginPage';
 import Logout from './routes/logout/Logout';
 import QuestionPage from './routes/q/QuestionPage';
+import RegisterPage from './routes/register/RegisterPage';
 import Homepage from './routes/root/Homepage';
 
 const router = createBrowserRouter([
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: '/', element: <Homepage /> },
       { path: '/ask', element: <AskQuestion /> },
       { path: '/q/:id', element: <QuestionPage /> },
+      { path: '/register', element: <RegisterPage /> },
     ],
   },
 ]);
