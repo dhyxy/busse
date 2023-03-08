@@ -5,18 +5,24 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import Navbar from './components/navbar';
 import { UserProvider } from './contexts/user';
+import AskQuestion from './routes/ask/AskQuestion';
 import LoginPage from './routes/login/LoginPage';
 import Logout from './routes/logout/Logout';
-import App from './routes/root/App';
+import QuestionPage from './routes/q/QuestionPage';
+import Homepage from './routes/root/Homepage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Navbar />,
     children: [
       { path: '/login', element: <LoginPage /> },
       { path: '/logout', element: <Logout /> },
+      { path: '/', element: <Homepage /> },
+      { path: '/ask', element: <AskQuestion /> },
+      { path: '/q/:id', element: <QuestionPage /> },
     ],
   },
 ]);

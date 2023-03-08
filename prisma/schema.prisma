@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
 }
 
 datasource db {
@@ -10,14 +11,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// this is a model created for setup purposes, feel free to ignore
 model User {
-  id           Int            @id @default(autoincrement())
-  email        String         @unique
-  password     String
-  name         String
-  createdAt    DateTime       @default(now())
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  password      String
+  name          String
+  createdAt     DateTime       @default(now())
   refreshTokens RefreshToken[]
+  questions     Question[]
+  answers       Answer[]
 }
 
 model RefreshToken {
@@ -26,4 +28,26 @@ model RefreshToken {
   userId    Int      @unique
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+}
+
+model Question {
+  id               Int      @id @default(autoincrement())
+  title            String
+  body             String
+  authorId         Int
+  author           User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt        DateTime @default(now())
+  answers          Answer[]
+  selectedAnswerId Int?
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  text       String
+  authorId   Int
+  author     User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
