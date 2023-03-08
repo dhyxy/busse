@@ -18,9 +18,15 @@ const Navbar = () => {
             bussé
           </BSNavbar.Brand>
           <Nav>
-            <Nav.Link as={Link} to="/">
-              profile
-            </Nav.Link>
+            {user != null ? (
+              <Nav.Link as={Link} to="/notifications">
+                notifications
+              </Nav.Link>
+            ) : (
+              <Nav.Link as={Link} to="/register">
+                register
+              </Nav.Link>
+            )}
             {user != null ? (
               <Nav.Link as={Link} to="/logout">
                 logout
