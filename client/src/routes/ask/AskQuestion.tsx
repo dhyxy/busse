@@ -1,4 +1,5 @@
 import type { PostQuestionReq } from '@backend/core/types';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -14,6 +15,8 @@ type QuestionFormData = PostQuestionReq;
 const AskQuestion = () => {
   const user = useUser();
   const navigate = useNavigate();
+  // const [file, setFile] = useState(null);
+  // const [fileUrl, setFileUrl] = useState(null);
 
   useEffectOnce(() => {
     if (!user) {
@@ -64,6 +67,10 @@ const AskQuestion = () => {
           <Form.Control.Feedback type="invalid">
             {errors.question?.body?.message}
           </Form.Control.Feedback>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>file</Form.Label>
+            <Form.Control type="file" />
+          </Form.Group>
         </Form.Group>
         <Button variant="primary" type="submit">
           ask!
