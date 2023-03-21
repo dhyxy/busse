@@ -50,6 +50,7 @@ router.post(
     body('question').exists().isObject(),
     body('question.title').exists().isString(),
     body('question.body').exists().isString(),
+    // body('question.fileUrl').isString(),
     validate,
     async (req, res, next) => {
         try {

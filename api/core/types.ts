@@ -3,7 +3,12 @@ import type { Prisma } from '@prisma/client';
 import type { getQuestion, postAnswer } from './service';
 
 export interface PostQuestionReq {
-    question: { title: string; body: string };
+    question: {
+        fileName: string | '';
+        title: string;
+        body: string;
+        fileUrl: string | '';
+    };
 }
 
 export type GetQuestionResp = Awaited<ReturnType<typeof getQuestion>>;

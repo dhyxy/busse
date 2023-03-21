@@ -1,5 +1,6 @@
 import type { PostQuestionReq } from '@backend/core/types';
-import { useState } from 'react';
+import { url } from 'inspector';
+import { FormEventHandler, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -15,8 +16,8 @@ type QuestionFormData = PostQuestionReq;
 const AskQuestion = () => {
   const user = useUser();
   const navigate = useNavigate();
-  // const [file, setFile] = useState(null);
-  // const [fileUrl, setFileUrl] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState<string>('');
 
   useEffectOnce(() => {
     if (!user) {
@@ -31,8 +32,24 @@ const AskQuestion = () => {
   } = useForm<QuestionFormData>();
 
   const onSubmit = async (data: QuestionFormData) => {
-    await http.private.post('/api/questions', data);
+    const res = await http.private.post('/api/questions', data);
+    if (file) {
+      setFileUrl(res.data.fileUrl);
+    }
     navigate('/');
+  };
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setFile(file);
+      const urlFile = URL.createObjectURL(event.target.files[0]);
+      setFileUrl(urlFile);
+    }
+  };
+
+  const viewFileChange = () => {
+    window.open(fileUrl);
   };
 
   return (
@@ -69,7 +86,20 @@ const AskQuestion = () => {
           </Form.Control.Feedback>
           <Form.Group controlId="formFile" className="mb-3">
             <Form.Label>file</Form.Label>
-            <Form.Control type="file" />
+            <Form.Control type="file" onChange={handleFileChange} />
+            {fileUrl && (
+              <a
+                href={fileUrl}
+                {...register('question.fileUrl', {
+                  required: false,
+                })}
+                download
+              >
+                Download File
+              </a>
+            )}
+            <Button onClick={viewFileChange}>view File</Button>
+            {/* it's so ugly someone style this */}
           </Form.Group>
         </Form.Group>
         <Button variant="primary" type="submit">
