@@ -63,7 +63,7 @@ const AskQuestion = () => {
             placeholder="extra information :)"
             {...register('question.body', {
               required: true,
-              minLength: { value: 1, message: 'Question must have a body' },
+              minLength: { value: 1, message: 'question must have a body' },
             })}
             isInvalid={'body' in (errors.question ?? {})}
           ></Form.Control>
