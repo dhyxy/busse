@@ -51,7 +51,7 @@ const AskQuestion = () => {
             })}
             isInvalid={'title' in (errors.question ?? {})}
           ></Form.Control>
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback>
             {errors.question?.title?.message}
           </Form.Control.Feedback>
         </Form.Group>
