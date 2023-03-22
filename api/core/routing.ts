@@ -78,11 +78,13 @@ router.post(
     body('answer').exists().isObject(),
     body('answer.text').exists().isString(),
     validate,
+    upload.single('file'),
     async (req, res, next) => {
         try {
             const questionId = Number(req.params['questionId']);
             const email = assertUserEmail(req.auth?.email);
             const { answer } = req.body as PostAnswerReq;
+            answer.file = req.file?.buffer ?? null;
 
             const user = await service.getUser(email);
             const savedAnswer = await service.postAnswer(

@@ -19,8 +19,8 @@ const Navbar = () => {
           </BSNavbar.Brand>
           <Nav>
             {user != null ? (
-              <Nav.Link as={Link} to="/notifications">
-                notifications
+              <Nav.Link as={Link} to="/profile">
+                profile
               </Nav.Link>
             ) : (
               <Nav.Link as={Link} to="/register">
