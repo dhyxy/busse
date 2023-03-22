@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <>
-      <BSNavbar bg="dark" variant="dark">
+      <BSNavbar bg="none" variant="dark">
         <Container>
           <BSNavbar.Brand as={Link} to="/">
             bussé

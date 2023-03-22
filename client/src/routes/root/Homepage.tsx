@@ -18,9 +18,11 @@ const Homepage = () => {
       {user && (
         <Row>
           <Col>
-            <Button className="btn" onClick={() => navigate('/ask')}>
+            <div> ‎</div>
+            <Button className="btnAsk" onClick={() => navigate('/ask')}>
               ask a question
             </Button>
+            <div> ‎</div>
           </Col>
         </Row>
       )}

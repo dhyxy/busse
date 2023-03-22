@@ -36,10 +36,12 @@ const AskQuestion = () => {
 
   return (
     <Container className="py-3">
-      <h2 className="text-center mb-4 move-header">Ask a Question</h2>
+      <h2 className="text-center mb-4 move-header text-white">
+        Ask a Question
+      </h2>
       <Form onSubmit={handleSubmit((data) => onSubmit(data))}>
         <Form.Group>
-          <Form.Label>title</Form.Label>
+          <Form.Label className="text-white">title</Form.Label>
           <Form.Control
             type="text"
             placeholder="the question title"
@@ -49,12 +51,12 @@ const AskQuestion = () => {
             })}
             isInvalid={'title' in (errors.question ?? {})}
           ></Form.Control>
-          <Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
             {errors.question?.title?.message}
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group>
-          <Form.Label>body</Form.Label>
+          <Form.Label className="text-white">body</Form.Label>
           <Form.Control
             as="textarea"
             rows={3}
