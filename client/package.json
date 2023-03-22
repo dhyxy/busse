@@ -17,6 +17,7 @@
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.1",
+    "react-pdf": "^6.2.2",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "status-code-enum": "^1.0.0",
@@ -85,5 +86,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080",
+  "devDependencies": {
+    "@types/react-pdf": "^6.2.0"
+  }
 }

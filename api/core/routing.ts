@@ -1,12 +1,14 @@
 import express from 'express';
 import { body, param } from 'express-validator';
 import createHttpError from 'http-errors';
+import multer from 'multer';
 
 import { assertUserEmail } from '../auth/util';
 import { jwtGuard, validate } from '../middleware';
 import * as service from './service';
 import type { PatchAnswerReq, PostAnswerReq, PostQuestionReq } from './types';
 
+const upload = multer();
 const router = express.Router();
 
 router.get('/questions', async (req, res, next) => {
@@ -103,11 +105,13 @@ router.patch(
     param('answerId').exists().isInt(),
     body('answer').exists().isObject(),
     body('answer.text').exists().isString(),
+    upload.single('file'),
     async (req, res, next) => {
         try {
             const answerId = Number(req.params['answerId']);
             const email = assertUserEmail(req.auth?.email);
             const { answer: answerData } = req.body as PatchAnswerReq;
+            answerData.file = req.file?.buffer ?? null;
 
             const user = await service.getUser(email);
             const updatedAnswer = await service.patchAnswer(

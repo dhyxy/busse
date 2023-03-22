@@ -9,7 +9,7 @@ export interface PostQuestionReq {
 export type GetQuestionResp = Awaited<ReturnType<typeof getQuestion>>;
 
 const answerCreateData = {
-    select: { text: true },
+    select: { text: true, file: true },
 } satisfies Prisma.AnswerArgs;
 
 export type AnswerCreateData = Prisma.AnswerGetPayload<typeof answerCreateData>;
@@ -19,7 +19,7 @@ export interface PostAnswerReq {
 }
 
 const answerPatchData = {
-    select: { text: true },
+    select: { text: true, file: true },
 } satisfies Prisma.AnswerArgs;
 
 export type AnswerPatchData = Prisma.AnswerGetPayload<typeof answerPatchData>;

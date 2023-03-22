@@ -1,8 +1,8 @@
 import type {
   GetQuestionResp as Question,
-  PostAnswerReq,
   PostAnswerResp,
 } from '@backend/core/types';
+import type { AxiosRequestConfig } from 'axios';
 import axios, { HttpStatusCode } from 'axios';
 import { useCallback, useState } from 'react';
 import Button from 'react-bootstrap/Button';
@@ -11,13 +11,15 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useForm } from 'react-hook-form';
+import { Document, Page, pdfjs } from 'react-pdf';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectOnce } from 'usehooks-ts';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 import { useUser } from '../../contexts/user';
 import http from '../../http';
 
-type WriteAnswerFormData = PostAnswerReq;
 type Answer = Question['answers'][number];
 
 const QuestionPage = () => {
@@ -67,6 +69,17 @@ const QuestionPage = () => {
   );
 };
 
+interface WriteAnswerFormData {
+  answer: {
+    text: string;
+    files: FileList;
+  };
+}
+
+const FORM_DATA_HEADERS = {
+  headers: { 'Content-Type': 'multipart/form-data' },
+} satisfies AxiosRequestConfig;
+
 const AddAnswer = ({
   question,
   fetchQuestion,
@@ -81,6 +94,7 @@ const AddAnswer = ({
   } = useForm<WriteAnswerFormData>();
   const user = useUser();
 
+  const isInputDisabled = !user;
   const userAnswer = question?.answers.find(
     (a) => user?.id && a.authorId === user.id,
   );
@@ -91,12 +105,21 @@ const AddAnswer = ({
       return;
     }
 
+    const file =
+      data.answer.files.length === 1 ? data.answer.files.item(0) : null;
+    const parsedData = { answer: { text: data.answer.text }, file };
+
     if (hasUserAnswered) {
-      await http.private.patch(`/api/answers/${userAnswer.id}`, data);
+      await http.private.patch(
+        `/api/answers/${userAnswer.id}`,
+        parsedData,
+        FORM_DATA_HEADERS,
+      );
     } else {
       await http.private.post<PostAnswerResp>(
         `/api/questions/${question.id}/answers`,
-        data,
+        parsedData,
+        FORM_DATA_HEADERS,
       );
     }
     fetchQuestion();
@@ -127,7 +150,17 @@ const AddAnswer = ({
           </Form.Group>
         </Col>
         <Col>
-          <Button variant="primary" type="submit" disabled={!user}>
+          <Form.Group>
+            <Form.Control
+              type="file"
+              disabled={isInputDisabled}
+              accept="application/pdf"
+              {...register('answer.files')}
+            />
+          </Form.Group>
+        </Col>
+        <Col>
+          <Button variant="primary" type="submit" disabled={isInputDisabled}>
             {hasUserAnswered ? 'update' : 'submit'}
           </Button>
         </Col>
@@ -143,11 +176,17 @@ const AnswerComponent = ({
   answer: Answer;
   isSelectedAnswer?: boolean;
 }) => {
+  const file = `data:application/pdf;base64,${answer.file}`;
   return (
     <Row className={isSelectedAnswer ? 'bg-primary' : undefined}>
       <Col>
         <h3>{answer.text}</h3>
         <p>posted by {answer.author.email}</p>
+        {answer.file && (
+          <Document file={file}>
+            <Page pageNumber={1} />
+          </Document>
+        )}
       </Col>
     </Row>
   );
