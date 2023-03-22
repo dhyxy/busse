@@ -127,4 +127,22 @@ router.patch(
     },
 );
 
+router.delete(
+    '/answers/:answerId',
+    jwtGuard(),
+    param('questionId').exists().isInt(),
+    async (req, res, next) => {
+        try {
+            const answerId = Number(req.params['answerId']);
+            const email = assertUserEmail(req.auth?.email);
+
+            const user = await service.getUser(email);
+            await service.deleteAnswer(user.id, answerId);
+            return res.status(204).json();
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
 export default router;

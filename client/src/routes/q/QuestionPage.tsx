@@ -60,6 +60,7 @@ const QuestionPage = () => {
             answer={answer}
             key={answer.id}
             isSelectedAnswer={question.selectedAnswerId === answer.id}
+            fetchQuestion={fetchQuestion}
           />
         ))}
       </Container>
@@ -172,10 +173,28 @@ const AddAnswer = ({
 const AnswerComponent = ({
   answer,
   isSelectedAnswer,
+  fetchQuestion,
 }: {
   answer: Answer;
   isSelectedAnswer?: boolean;
+  fetchQuestion: () => Promise<void>;
 }) => {
+  const user = useUser();
+  const answerBelongsToUser = answer.authorId === user?.id;
+
+  const onDelete = async () => {
+    if (answerBelongsToUser) {
+      await http.private.delete(`/api/answers/${answer.id}`);
+      fetchQuestion();
+    }
+  };
+
+  const deleteButton = answerBelongsToUser && (
+    <Button variant="danger" type="submit" onClick={onDelete}>
+      delete
+    </Button>
+  );
+
   const file = `data:application/pdf;base64,${answer.file}`;
   return (
     <Row className={isSelectedAnswer ? 'bg-primary' : undefined}>
@@ -188,6 +207,7 @@ const AnswerComponent = ({
           </Document>
         )}
       </Col>
+      <Col>{deleteButton}</Col>
     </Row>
   );
 };
