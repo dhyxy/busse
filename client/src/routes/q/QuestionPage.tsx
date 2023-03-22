@@ -78,7 +78,9 @@ interface WriteAnswerFormData {
 }
 
 const FORM_DATA_HEADERS = {
-  headers: { 'Content-Type': 'multipart/form-data' },
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
 } satisfies AxiosRequestConfig;
 
 const AddAnswer = ({
@@ -107,21 +109,28 @@ const AddAnswer = ({
     }
 
     const file =
-      data.answer.files.length === 1 ? data.answer.files.item(0) : null;
-    const parsedData = { answer: { text: data.answer.text }, file };
+      data.answer.files?.length === 1 ? data.answer.files.item(0) : null;
 
+    const patchData = { answer: { text: data.answer.text }, file };
     if (hasUserAnswered) {
       await http.private.patch(
         `/api/answers/${userAnswer.id}`,
-        parsedData,
+        patchData,
         FORM_DATA_HEADERS,
       );
     } else {
-      await http.private.post<PostAnswerResp>(
+      const postData = { answer: { text: data.answer.text } };
+      const postResp = await http.private.post<PostAnswerResp>(
         `/api/questions/${question.id}/answers`,
-        parsedData,
-        FORM_DATA_HEADERS,
+        postData,
       );
+      if (file) {
+        await http.private.patch(
+          `/api/answers/${postResp.data.id}`,
+          patchData,
+          FORM_DATA_HEADERS,
+        );
+      }
     }
     fetchQuestion();
   };

@@ -66,7 +66,7 @@ export async function postAnswer(
 }
 
 export async function deleteAnswer(userId: User['id'], answerId: Answer['id']) {
-    await assertAnswerBelongsToUser(answerId, userId);
+    await assertAnswerBelongsToUser(userId, answerId);
     return db.answer.delete({ where: { id: answerId } });
 }
 
@@ -79,7 +79,7 @@ export async function patchAnswer(
     answerId: Answer['id'],
     data: AnswerPatchData,
 ) {
-    await assertAnswerBelongsToUser(answerId, userId);
+    await assertAnswerBelongsToUser(userId, answerId);
 
     return await db.answer.update({
         where: { id: answerId },
