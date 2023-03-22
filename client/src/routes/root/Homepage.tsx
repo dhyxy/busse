@@ -1,3 +1,5 @@
+import './feedstyle.css';
+
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -16,7 +18,11 @@ const Homepage = () => {
       {user && (
         <Row>
           <Col>
-            <Button onClick={() => navigate('/ask')}>ask a question</Button>
+            <div> ‎</div>
+            <Button className="btnAsk" onClick={() => navigate('/ask')}>
+              ask a question
+            </Button>
+            <div> ‎</div>
           </Col>
         </Row>
       )}

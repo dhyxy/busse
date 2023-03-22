@@ -1,3 +1,5 @@
+import './feedstyle.css';
+
 import type { Question } from '@backend/core/types';
 import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
@@ -15,6 +17,7 @@ const QuestionCard = ({ question }: { question: Question }) => {
     <Card
       onClick={() => navigate(`/q/${question.id}`)}
       style={{ cursor: 'pointer' }}
+      className="question-card"
     >
       <Card.Body>
         <Card.Title>{question.title}</Card.Title>
@@ -41,13 +44,17 @@ const Feed = () => {
   }, []);
 
   return (
-    <Container>
-      {questions.map((q) => (
-        <Row key={q.id}>
-          <QuestionCard question={q} />
-        </Row>
-      ))}
-    </Container>
+    <div className="background">
+      <Container>
+        <div className="d-grid gap-3">
+          {questions.map((q) => (
+            <div key={q.id}>
+              <QuestionCard question={q} />
+            </div>
+          ))}
+        </div>
+      </Container>
+    </div>
   );
 };
 

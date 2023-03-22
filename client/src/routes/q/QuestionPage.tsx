@@ -49,8 +49,8 @@ const QuestionPage = () => {
 
   return question ? (
     <Container>
-      <h1>{question.title}</h1>
-      <p>{question.body}</p>
+      <h1 className="text-white">{question.title}</h1>
+      <p className="text-white">{question.body}</p>
       <Container>
         <AddAnswer question={question} fetchQuestion={fetchQuestion} />
       </Container>
@@ -66,7 +66,7 @@ const QuestionPage = () => {
       </Container>
     </Container>
   ) : (
-    <p>wait lol</p>
+    <p className="text-white">wait lol</p>
   );
 };
 
@@ -208,8 +208,8 @@ const AnswerComponent = ({
   return (
     <Row className={isSelectedAnswer ? 'bg-primary' : undefined}>
       <Col>
-        <h3>{answer.text}</h3>
-        <p>posted by {answer.author.email}</p>
+        <h3 className="text-white">{answer.text}</h3>
+        <p className="text-white">posted by {answer.author.email}</p>
         {answer.file && (
           <Document file={file}>
             <Page pageNumber={1} />
