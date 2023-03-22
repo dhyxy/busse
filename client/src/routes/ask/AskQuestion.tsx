@@ -1,3 +1,5 @@
+import './styles.css';
+
 import type { PostQuestionReq } from '@backend/core/types';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -33,7 +35,8 @@ const AskQuestion = () => {
   };
 
   return (
-    <Container>
+    <Container className="py-3">
+      <h2 className="text-center mb-4 move-header">Ask a Question</h2>
       <Form onSubmit={handleSubmit((data) => onSubmit(data))}>
         <Form.Group>
           <Form.Label>title</Form.Label>
@@ -46,18 +49,19 @@ const AskQuestion = () => {
             })}
             isInvalid={'title' in (errors.question ?? {})}
           ></Form.Control>
-          <Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
             {errors.question?.title?.message}
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group>
           <Form.Label>body</Form.Label>
           <Form.Control
-            type="text"
+            as="textarea"
+            rows={3}
             placeholder="extra information :)"
             {...register('question.body', {
               required: true,
-              minLength: { value: 1, message: 'question must have a body' },
+              minLength: { value: 1, message: 'Question must have a body' },
             })}
             isInvalid={'body' in (errors.question ?? {})}
           ></Form.Control>
@@ -65,9 +69,12 @@ const AskQuestion = () => {
             {errors.question?.body?.message}
           </Form.Control.Feedback>
         </Form.Group>
-        <Button variant="primary" type="submit">
-          ask!
-        </Button>
+        <div className="text-center">
+          <Button variant="outline-primary" type="submit" className="mt-4">
+            Ask!
+          </Button>
+          <div className="think"></div>
+        </div>
       </Form>
     </Container>
   );
