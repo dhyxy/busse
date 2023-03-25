@@ -15,6 +15,7 @@ const Navbar = () => {
       <BSNavbar bg="none" variant="dark">
         <Container>
           <BSNavbar.Brand as={Link} to="/">
+            <img src="logo.png" alt="logo" className="logo" />
             bussé
           </BSNavbar.Brand>
           <Nav>
