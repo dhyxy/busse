@@ -10,6 +10,7 @@ import { UserProvider } from './contexts/user';
 import AskQuestion from './routes/ask/AskQuestion';
 import LoginPage from './routes/login/LoginPage';
 import Logout from './routes/logout/Logout';
+import Profile from './routes/profile/Profile';
 import QuestionPage from './routes/q/QuestionPage';
 import RegisterPage from './routes/register/RegisterPage';
 import Homepage from './routes/root/Homepage';
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       { path: '/ask', element: <AskQuestion /> },
       { path: '/q/:id', element: <QuestionPage /> },
       { path: '/register', element: <RegisterPage /> },
+      { path: '/profile', element: <Profile /> },
     ],
   },
 ]);
