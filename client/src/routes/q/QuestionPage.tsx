@@ -1,3 +1,6 @@
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+import './questionstyle.css';
+
 import type {
   GetQuestionResp as Question,
   PostAnswerResp,
@@ -205,19 +208,70 @@ const AnswerComponent = ({
   );
 
   const file = `data:application/pdf;base64,${answer.file}`;
+  const [numPages, setNumPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [renderNavButtons, setRenderNavButtons] = useState(false);
+
+  const changePage = (offset: number) => {
+    const newPageNumber = pageNumber + offset;
+    if (newPageNumber >= 1 && newPageNumber <= numPages) {
+      setPageNumber(newPageNumber);
+    }
+  };
+
+  const previousPage = () => {
+    changePage(-1);
+  };
+
+  const nextPage = () => {
+    changePage(1);
+  };
+
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
+    setNumPages(numPages);
+    setRenderNavButtons(true);
+  }
+
   return (
-    <Row className={isSelectedAnswer ? 'bg-primary' : undefined}>
-      <Col>
-        <h3 className="text-white">{answer.text}</h3>
-        <p className="text-white">posted by {answer.author.email}</p>
-        {answer.file && (
-          <Document file={file}>
-            <Page pageNumber={1} />
-          </Document>
-        )}
-      </Col>
-      <Col>{deleteButton}</Col>
-    </Row>
+    <Container>
+      <Row className={isSelectedAnswer ? 'bg-primary' : undefined}>
+        <Col>
+          <h3 className="text-white">{answer.text}</h3>
+          <p className="text-white">posted by {answer.author.email}</p>
+
+          {answer.file && (
+            <>
+              <div>
+                {renderNavButtons && (
+                  <div>
+                    <Button
+                      disabled={pageNumber <= 1}
+                      onClick={previousPage}
+                      variant="light"
+                    >
+                      previous
+                    </Button>
+                    {'  '}
+                    <Button
+                      disabled={pageNumber === numPages}
+                      onClick={nextPage}
+                      variant="light"
+                    >
+                      next
+                    </Button>
+                  </div>
+                )}
+                <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                  <Page pageNumber={pageNumber} renderTextLayer={false} />
+                </Document>
+              </div>
+            </>
+          )}
+          {}
+        </Col>
+        <Col>{deleteButton}</Col>
+      </Row>
+    </Container>
   );
 };
 
