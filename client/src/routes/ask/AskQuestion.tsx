@@ -37,7 +37,7 @@ const AskQuestion = () => {
   return (
     <Container className="py-3">
       <h2 className="text-center mb-4 move-header text-white">
-        Ask a Question
+        ask a question
       </h2>
       <Form onSubmit={handleSubmit((data) => onSubmit(data))}>
         <Form.Group>
@@ -73,7 +73,7 @@ const AskQuestion = () => {
         </Form.Group>
         <div className="text-center">
           <Button variant="outline-primary" type="submit" className="mt-4">
-            Ask!
+            ask!
           </Button>
           <div className="think"></div>
         </div>
