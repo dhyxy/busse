@@ -12,8 +12,8 @@
     "dev": "nodemon index.ts --ignore client/*",
     "build": "rm -rf dist/ && tsc -p tsconfig.prod.json && cp .env dist/.env",
     "build:client": "cd client && npm run build",
-    "build:all": "npm run build && npm run build:client && cp -R client/build dist/client",
-    "deploy": "prisma migrate deploy && node dist/index.js"
+    "build:all": "npm run build && npm run build:client && cp -R client/build dist/client && prisma migrate deploy",
+    "deploy": "node dist/index.js"
   },
   "repository": {
     "type": "git",
