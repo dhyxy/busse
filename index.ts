@@ -11,7 +11,7 @@ import path from 'path';
 import api from './api';
 import { db } from './api/db';
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
