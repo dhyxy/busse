@@ -6,10 +6,14 @@
   "scripts": {
     "test": "jest",
     "install": "npm run db && cd client && npm install",
-    "db": "npx prisma migrate dev",
+    "db": "prisma migrate dev",
     "lint": "eslint . --fix",
     "ci-lint": "eslint .",
-    "dev": "nodemon index.ts --ignore client/*"
+    "dev": "nodemon index.ts --ignore client/*",
+    "build": "rm -rf dist/ && tsc -p tsconfig.prod.json && cp .env dist/.env",
+    "build:client": "cd client && npm run build",
+    "build:all": "npm run build && npm run build:client && cp -R client/build dist/client",
+    "deploy": "prisma migrate deploy && node dist/index.js"
   },
   "repository": {
     "type": "git",

@@ -2,11 +2,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import cors from 'cors';
-import type { Request, Response } from 'express';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import type { AddressInfo } from 'net';
+import path from 'path';
 
 import api from './api';
 import { db } from './api/db';
@@ -22,8 +22,9 @@ app.use(helmet());
 
 app.disable('etag');
 
-app.get('/', (_req: Request, res: Response) => {
-    res.send('server is up 🤩');
+app.use(express.static('client'));
+app.get('/', (_req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
 
 app.use('/api', api);
